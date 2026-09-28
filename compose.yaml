@@ -1,0 +1,41 @@
+services:
+  backend:
+    build: ./back
+    restart: unless-stopped
+    env_file: ./back/.env
+    environment:
+      NFREADER_AUTH_DB: /data/usuarios.sqlite3
+      NFREADER_SECURE_COOKIE: "1"
+    volumes:
+      - ./data:/data
+    expose:
+      - "8000"
+
+  front:
+    build: ./front
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NFREADER_BACKEND_URL: http://backend:8000
+    expose:
+      - "3000"
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on:
+      - front
+    environment:
+      NFREADER_DOMAIN: ${NFREADER_DOMAIN:?Defina NFREADER_DOMAIN no arquivo .env da raiz}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:

@@ -1,0 +1,6 @@
+{$NFREADER_DOMAIN} {
+    request_body {
+        max_size 60MB
+    }
+    reverse_proxy front:3000
+}

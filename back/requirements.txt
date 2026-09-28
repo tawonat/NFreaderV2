@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+python-multipart
+pdfplumber
+pandas
+openpyxl
+rapidfuzz
+pytesseract
+pypdfium2
+pillow
+opencv-python
+numpy
+
+pypdf
+PyMuPDF>=1.24
